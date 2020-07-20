@@ -13,3 +13,6 @@ Uses postgreSQL, use cmd to select tables.
 
 You better have config files outside your app package.
 Config.py is imported in run.apy create_app()
+
+Uses gunicorn for ...?
+and WhiteNoise for static file serving.
