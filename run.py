@@ -44,14 +44,14 @@ def setup_jwt(app):
         return RevokedTokenModel.is_jti_blacklisted(jti)
 
 
-if __name__ == "__main__":
-    app = create_app()
-    setup_database(app)
-    setup_jwt(app)
+# not happening in main because app is imported to wsgi
+app = create_app()
+setup_database(app)
+setup_jwt(app)
 
-    # adding resources. Do that AFTER setup_database()
-    from views.manage_blueprints import users, add_users_routes
-    add_users_routes()  # creates it's own api and adds it there
-    app.register_blueprint(users)  # blueprint connects that api and app
+# adding resources. Do that AFTER setup_database()
+from views.manage_blueprints import users, add_users_routes
+add_users_routes()  # creates it's own api and adds it there
+app.register_blueprint(users)  # blueprint connects that api and app
 
-    app.run(debug=True)
+# app.run()
