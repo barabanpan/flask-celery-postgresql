@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
+from whitenoise import WhiteNoise
 
 from models.database import db, base
 from views.manage_blueprints import users, add_users_routes
@@ -33,6 +34,7 @@ def setup_jwt(app):
 def create_app():
     app = Flask(__name__)
     app.config.from_object('config.DevelopmentConfig')
+    app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 
     @app.route('/')
     def index():
