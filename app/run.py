@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from whitenoise import WhiteNoise
+from flask_migrate import Migrate
 
 from .models.database import db, base
 from .views.manage_blueprints import users, add_users_routes
@@ -11,6 +12,7 @@ def setup_database(app):
         @app.before_first_request
         def create_tables():
             base.metadata.create_all(db)
+    migrate = Migrate(app, db)
 
 
 def setup_jwt(app):
