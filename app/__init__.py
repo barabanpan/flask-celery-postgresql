@@ -49,6 +49,9 @@ def create_app():
     add_users_routes()  # creates it's own api and adds it there
     app.register_blueprint(users)  # blueprint connects that api and app
 
-    migrate = Migrate(app, db)
+    from app.models.revoked_token_model import RevokedTokenModel
+    from app.models.user_model import UserModel
 
+    
+    migrate = Migrate(app, db)
     return app

@@ -26,9 +26,11 @@ from flask import current_app
 config.set_main_option(
     'sqlalchemy.url',
     "postgres://nataliia:nat_postgres_88@localhost:5432/nataliia")
-target_metadata = MetaData(bind=current_app.extensions['migrate'].db)
+from app import base #db #metadata
 from app.models.revoked_token_model import RevokedTokenModel
 from app.models.user_model import UserModel
+
+target_metadata = base.metadata #MetaData(bind=db)  #MetaData(bind=current_app.extensions['migrate'].db)
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
