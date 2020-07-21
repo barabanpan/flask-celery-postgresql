@@ -21,11 +21,15 @@ logger = logging.getLogger('alembic.env')
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+
 from flask import current_app
 config.set_main_option(
     'sqlalchemy.url',
     "postgres://nataliia:nat_postgres_88@localhost:5432/nataliia")
 target_metadata = MetaData(bind=current_app.extensions['migrate'].db)
+from app.models.revoked_token_model import RevokedTokenModel
+from app.models.user_model import UserModel
+
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
