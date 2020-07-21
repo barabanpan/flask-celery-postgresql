@@ -2,8 +2,8 @@ from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from whitenoise import WhiteNoise
 
-from models.database import db, base
-from views.manage_blueprints import users, add_users_routes
+from .models.database import db, base
+from .views.manage_blueprints import users, add_users_routes
 
 
 def setup_database(app):
@@ -22,7 +22,7 @@ def setup_jwt(app):
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 
     # DO IT SOMEPLACE HIGHER???
-    from models.revoked_token_model import RevokedTokenModel
+    from .models.revoked_token_model import RevokedTokenModel
     # WHERE SHOULD IT BE???
 
     @jwt.token_in_blacklist_loader
@@ -34,7 +34,7 @@ def setup_jwt(app):
 def create_app():
     app = Flask(__name__)
     app.config.from_object('config.DevelopmentConfig')
-    app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
+    app.wsgi_app = WhiteNoise(app.wsgi_app, root='app/static/')
 
     @app.route('/')
     def index():
