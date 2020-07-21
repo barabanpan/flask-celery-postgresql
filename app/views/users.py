@@ -1,9 +1,12 @@
 from flask_restful import Resource, reqparse
-from ..models.user_model import UserModel
-from ..models.revoked_token_model import RevokedTokenModel
 # way too much of things
 from flask_jwt_extended import (create_access_token, create_refresh_token,
     jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
+
+
+from ..models.user_model import UserModel
+from ..models.revoked_token_model import RevokedTokenModel
+from ..models.user_logging_model import UserLoggingModel
 
 
 parser = reqparse.RequestParser()
@@ -43,6 +46,12 @@ class UserLogin(Resource):
         current_user = UserModel.find_by_username(data['username'])
         if not current_user:
             return {"message": "User {} doesn't exist".format(data['username'])}
+
+        user_logging = UserLoggingModel(user_id=current_user.id)
+        try:
+            user_logging.save_to_db()
+        except Exception:
+            pass
 
         if UserModel.verify_hash(data['password'], current_user.password):
             access_token = create_access_token(identity=data['username'])

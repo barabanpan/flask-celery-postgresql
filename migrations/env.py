@@ -3,7 +3,7 @@ from __future__ import with_statement
 import logging
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config, MetaData
+from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
@@ -26,11 +26,12 @@ from flask import current_app
 config.set_main_option(
     'sqlalchemy.url',
     "postgres://nataliia:nat_postgres_88@localhost:5432/nataliia")
-from app import base #db #metadata
+from app import base
 from app.models.revoked_token_model import RevokedTokenModel
 from app.models.user_model import UserModel
+from app.models.user_logging_model import UserLoggingModel
 
-target_metadata = base.metadata #MetaData(bind=db)  #MetaData(bind=current_app.extensions['migrate'].db)
+target_metadata = base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
