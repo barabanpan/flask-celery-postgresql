@@ -43,8 +43,9 @@ def create_app():
     app.wsgi_app = WhiteNoise(app.wsgi_app, root='app/static/')
 
     # DOES IT HAVE init_app()???? NEEDED TO IMPORT celery
-    #celery.init_app(app.name, broker=app.config['CELERY_BROKER_URL'])
-    #celery.conf.update(app.config)
+    celery.name = app.name
+    celery.broker = app.config['CELERY_BROKER_URL']
+    celery.conf.update(app.config)
     # for sending emails
     mail.init_app(app)
 
