@@ -17,14 +17,7 @@ def setup_database(app):
 def setup_jwt(app):
     jwt = JWTManager(app)
 
-    # 2. Shoudld this be in config as well?
-    app.config['JWT_SECRET_KEY'] = 'jwt-secret-key'
-    app.config['JWT_BLACKLIST_ENABLED'] = True
-    app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
-
-    # DO IT SOMEPLACE HIGHER???
     from .models.revoked_token_model import RevokedTokenModel
-    # WHERE SHOULD IT BE???
 
     @jwt.token_in_blacklist_loader
     def check_if_token_in_blacklist(decrypted_token):
@@ -49,9 +42,8 @@ def create_app():
     add_users_routes()  # creates it's own api and adds it there
     app.register_blueprint(users)  # blueprint connects that api and app
 
-    from app.models.revoked_token_model import RevokedTokenModel
-    from app.models.user_model import UserModel
+    from .models.revoked_token_model import RevokedTokenModel
+    from .models.user_model import UserModel
 
-    
     migrate = Migrate(app, db)
     return app
