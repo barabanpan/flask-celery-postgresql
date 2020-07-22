@@ -2,13 +2,16 @@ from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from whitenoise import WhiteNoise
 from flask_migrate import Migrate
+from celery import Celery
+from flask_mail import Mail
 
 from .models.database import db, base
-from .views import users_bp, add_users_routes
 
 
 migrate = Migrate()
 jwt = JWTManager()
+celery = Celery()
+mail = Mail()
 
 
 def setup_database(app):
@@ -39,6 +42,12 @@ def create_app():
     app.config.from_object('config.DevelopmentConfig')
     app.wsgi_app = WhiteNoise(app.wsgi_app, root='app/static/')
 
+    # DOES IT HAVE init_app()???? NEEDED TO IMPORT celery
+    #celery.init_app(app.name, broker=app.config['CELERY_BROKER_URL'])
+    #celery.conf.update(app.config)
+    # for sending emails
+    mail.init_app(app)
+
     @app.route('/')
     def index():
         return jsonify({"message": "Hello, World!"})
@@ -48,7 +57,13 @@ def create_app():
     setup_jwt(app)
 
     # adding resources. Do that AFTER setup_database()
+    from .views import users_bp, add_users_routes
     add_users_routes()  # creates it's own api and adds it there
     app.register_blueprint(users_bp)  # blueprint connects that api and app
+
+    from .views import email_sender_bp, add_emails_routes
+    add_emails_routes()  # creates it's own api and adds it there
+    app.register_blueprint(email_sender_bp)  # blueprint connects that api and app
+
 
     return app

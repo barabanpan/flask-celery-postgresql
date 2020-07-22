@@ -4,8 +4,10 @@ from flask_restful import Api
 from .users import (UserRegistration, UserLogin, UserLogoutAccess,
     UserLogoutRefresh, TokenRefresh, AllUsers, SecretResource
 )
+from .email_sending import CeleryEmailSender
 
 users_bp = Blueprint('users', __name__)
+email_sender_bp = Blueprint('emails', __name__)
 
 
 def add_users_routes():
@@ -18,3 +20,9 @@ def add_users_routes():
     api.add_resource(TokenRefresh, '/token/refresh')
     api.add_resource(AllUsers, '/users')
     api.add_resource(SecretResource, '/secret')
+
+
+def add_emails_routes():
+    api = Api(email_sender_bp)
+
+    api.add_resource(CeleryEmailSender, '/emails')
