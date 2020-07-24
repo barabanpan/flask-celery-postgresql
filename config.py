@@ -17,7 +17,7 @@ class Config(object):
         "postgres://nataliia:nat_postgres_88@localhost:5432/nataliia"
 
     CELERY_BROKER_URL = 'redis://localhost:6379/0'
-    #CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
     # Flask-Mail configuration
     MAIL_SERVER = 'smtp.gmail.com'
