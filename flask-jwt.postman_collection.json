@@ -66,7 +66,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"Portia\",\n    \"password\": \"LoveEllen\"\n}",
+					"raw": "{\n    \"username\": \"Severus\",\n    \"password\": \"LoveLily\",\n    \"fave_thing\": \"Lily\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -408,6 +408,47 @@
 					"port": "5000",
 					"path": [
 						"secret"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/emails",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email_to_send_to\": \"nataliia.dyshko@ukr.net\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/emails",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"emails"
 					]
 				}
 			},
