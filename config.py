@@ -1,5 +1,5 @@
-import os
-basedir = os.path.abspath(os.path.dirname(__file__))
+# import os
+# basedir = os.path.abspath(os.path.dirname(__file__))
 # ?
 
 
@@ -28,8 +28,6 @@ class Config(object):
     MAIL_USERNAME = 'nataliia.dyshko@gmail.com'
     MAIL_PASSWORD = '555678gmail'
     MAIL_DEFAULT_SENDER = 'flask@example.com'
-
-
 
 
 class ProductionConfig(Config):

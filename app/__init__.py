@@ -3,32 +3,17 @@ from flask_jwt_extended import JWTManager
 from whitenoise import WhiteNoise
 from flask_migrate import Migrate
 from celery import Celery
+from flask_mail import Mail
 
 from .models.database import db, base
-
-app = Flask(__name__)
-app.config.from_object('config.DevelopmentConfig')
-celery = Celery(__name__,
-                broker=app.config["CELERY_BROKER_URL"],
-                backend=app.config["CELERY_RESULT_BACKEND"])
-celery.conf.update(app.config)
+from config import Config
 
 migrate = Migrate()
 jwt = JWTManager()
-
-
-#def setup_celery(app, celery):
-#    TaskBase = celery.Task
-#
-#    class ContextTask(TaskBase):
-#        abstract = True
-#        def __call__(self, *args, **kwargs):
-#            with app.app_context():
-#                return TaskBase.__call__(self, *args, **kwargs)
-#    celery.Task = ContextTask
-#
-#    # DOES IT HAVE init_app()???? NEEDED TO IMPORT celery
-#    celery.conf.update(app.config)
+celery = Celery(__name__, broker=Config.CELERY_BROKER_URL,
+                backend=Config.CELERY_RESULT_BACKEND)
+# celery.conf.update(app.config)  #!!!!!!!
+mail = Mail()
 
 
 def setup_database(app):
@@ -55,16 +40,12 @@ def setup_jwt(app):
 
 
 def create_app():
- #   app = Flask(__name__)
- #   app.config.from_object('config.DevelopmentConfig')
+    app = Flask(__name__)
+    app.config.from_object('config.DevelopmentConfig')
     app.wsgi_app = WhiteNoise(app.wsgi_app, root='app/static/')
 
-
     # for sending emails
-#    mail.init_app(app)
-
-#    setup_celery(app, celery)
-   # celery = make_celery(app)
+    mail.init_app(app)
 
     @app.route('/')
     def index():
