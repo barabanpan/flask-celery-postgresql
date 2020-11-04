@@ -1,20 +1,14 @@
-# import os
-# basedir = os.path.abspath(os.path.dirname(__file__))
-# ?
-
-
 class Config(object):
     DEBUG = False
     TESTING = False
-    CSRF_ENABLED = True  # ?
+    CSRF_ENABLED = True
     SECRET_KEY = 'aaa'
 
-    JWT_SECRET_KEY = 'jwt-secret-key'
+    JWT_SECRET_KEY = 'your-jwt-secret-key'
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
-    #  not used yet
     SQLALCHEMY_DATABASE_URL = \
-        "postgres://nataliia:nat_postgres_88@localhost:5432/nataliia"
+        "postgres://abc:your_pass@localhost:5432/db_name"
 
     CELERY_BROKER_URL = 'redis://localhost:6379/0'
     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
@@ -22,11 +16,10 @@ class Config(object):
     # Flask-Mail configuration
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465 #587
-    #MAIL_USE_TLS = True
     MAIL_USE_SSL = True
 
-    MAIL_USERNAME = 'nataliia.dyshko@gmail.com'
-    MAIL_PASSWORD = '555678gmail'
+    MAIL_USERNAME = 'your_email@example.com'
+    MAIL_PASSWORD = 'your_pass'
     MAIL_DEFAULT_SENDER = 'flask@example.com'
 
 
